@@ -1,5 +1,6 @@
 package kz.oj.tinkoffhw5.web.rest.v1.controller;
 
+import kz.oj.tinkoffhw5.aop.Timed;
 import kz.oj.tinkoffhw5.entity.Category;
 import kz.oj.tinkoffhw5.service.CategoryService;
 import kz.oj.tinkoffhw5.web.rest.v1.request.CategoryCreateRequest;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
 @Slf4j
+@Timed
 public class CategoryController {
 
     private final CategoryService categoryService;

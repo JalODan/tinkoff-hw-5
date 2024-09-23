@@ -1,5 +1,6 @@
 package kz.oj.tinkoffhw5.task;
 
+import kz.oj.tinkoffhw5.aop.Timed;
 import kz.oj.tinkoffhw5.integration.kudago.CategoryClient;
 import kz.oj.tinkoffhw5.service.CategoryService;
 import kz.oj.tinkoffhw5.web.rest.v1.request.CategoryCreateRequest;
@@ -17,6 +18,7 @@ public class InitializeCategoriesTask implements CommandLineRunner {
     private final CategoryService categoryService;
 
     @Override
+    @Timed
     public void run(String... args) throws Exception {
 
         log.info("Task started...");

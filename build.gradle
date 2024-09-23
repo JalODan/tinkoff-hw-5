@@ -34,6 +34,12 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.1.3'
 
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
+	implementation 'org.springframework.boot:spring-boot-starter-aop:3.3.4'
+
+	// https://mvnrepository.com/artifact/org.aspectj/aspectjweaver
+	runtimeOnly 'org.aspectj:aspectjweaver:1.9.22.1'
+
 }
 
 tasks.named('test') {

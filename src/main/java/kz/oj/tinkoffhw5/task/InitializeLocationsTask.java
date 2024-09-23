@@ -1,5 +1,6 @@
 package kz.oj.tinkoffhw5.task;
 
+import kz.oj.tinkoffhw5.aop.Timed;
 import kz.oj.tinkoffhw5.integration.kudago.LocationClient;
 import kz.oj.tinkoffhw5.service.LocationService;
 import kz.oj.tinkoffhw5.web.rest.v1.request.LocationCreateRequest;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
+@Timed
 public class InitializeLocationsTask implements CommandLineRunner {
 
     private final LocationClient locationClient;

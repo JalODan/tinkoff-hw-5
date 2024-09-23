@@ -1,5 +1,6 @@
 package kz.oj.tinkoffhw5.web.rest.v1.controller;
 
+import kz.oj.tinkoffhw5.aop.Timed;
 import kz.oj.tinkoffhw5.entity.Location;
 import kz.oj.tinkoffhw5.service.LocationService;
 import kz.oj.tinkoffhw5.web.rest.v1.request.LocationCreateRequest;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequestMapping("/api/v1/locations")
 @RequiredArgsConstructor
 @Slf4j
+@Timed
 public class LocationController {
 
     private final LocationService locationService;
