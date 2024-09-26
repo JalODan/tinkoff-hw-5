@@ -48,8 +48,14 @@ public class LocationServiceImpl implements LocationService {
     public void update(UUID id, LocationUpdateRequest request) {
 
         Location location = findById(id);
-        location.setSlug(request.getSlug());
-        location.setName(request.getName());
+
+        if (request.getSlug() != null) {
+            location.setSlug(request.getSlug());
+        }
+
+        if (request.getName() != null) {
+            location.setName(request.getName());
+        }
 
         locationRepository.save(location);
     }

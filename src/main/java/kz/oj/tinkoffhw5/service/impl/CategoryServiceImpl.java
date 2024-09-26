@@ -48,8 +48,14 @@ public class CategoryServiceImpl implements CategoryService {
     public void update(Long id, CategoryUpdateRequest request) {
 
         Category category = findById(id);
-        category.setSlug(request.getSlug());
-        category.setName(request.getName());
+
+        if (request.getSlug() != null) {
+            category.setSlug(request.getSlug());
+        }
+
+        if (request.getName() != null) {
+            category.setName(request.getName());
+        }
 
         categoryRepository.save(category);
     }
