@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/locations")
@@ -28,7 +29,7 @@ public class LocationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Location> findById(@PathVariable("id") String id) {
+    public ResponseEntity<Location> findById(@PathVariable("id") UUID id) {
 
         return ResponseEntity.ok(locationService.findById(id));
     }
@@ -41,14 +42,14 @@ public class LocationController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable String id, @RequestBody LocationUpdateRequest request) {
+    public ResponseEntity<Void> update(@PathVariable UUID id, @RequestBody LocationUpdateRequest request) {
 
         locationService.update(id, request);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
 
         locationService.delete(id);
         return ResponseEntity.ok().build();

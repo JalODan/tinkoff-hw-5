@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Location findById(String id) {
+    public Location findById(UUID id) {
 
         return locationRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Локация не найдена по id=" + id));
@@ -34,12 +35,8 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public void create(LocationCreateRequest request) {
 
-        if (locationRepository.existsById(request.getSlug())) {
-            throw new IllegalArgumentException("Дублирующееся значение");
-        }
-
         Location location = Location.builder()
-                .id(request.getSlug())
+                .id(UUID.randomUUID())
                 .slug(request.getSlug())
                 .name(request.getName())
                 .build();
@@ -48,16 +45,17 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public void update(String id, LocationUpdateRequest request) {
+    public void update(UUID id, LocationUpdateRequest request) {
 
         Location location = findById(id);
+        location.setSlug(request.getSlug());
         location.setName(request.getName());
 
         locationRepository.save(location);
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(UUID id) {
 
         locationRepository.deleteById(id);
     }

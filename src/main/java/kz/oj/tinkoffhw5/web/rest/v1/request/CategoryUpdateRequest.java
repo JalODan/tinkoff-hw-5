@@ -5,5 +5,6 @@ import lombok.Data;
 @Data
 public class CategoryUpdateRequest {
 
+    private String slug;
     private String name;
 }
