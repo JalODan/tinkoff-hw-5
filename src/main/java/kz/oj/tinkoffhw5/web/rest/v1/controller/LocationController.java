@@ -35,17 +35,15 @@ public class LocationController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody LocationCreateRequest request) {
+    public ResponseEntity<Location> create(@RequestBody LocationCreateRequest request) {
 
-        locationService.create(request);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(locationService.create(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable UUID id, @RequestBody LocationUpdateRequest request) {
+    public ResponseEntity<Location> update(@PathVariable UUID id, @RequestBody LocationUpdateRequest request) {
 
-        locationService.update(id, request);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(locationService.update(id, request));
     }
 
     @DeleteMapping("/{id}")

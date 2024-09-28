@@ -1,6 +1,7 @@
 package kz.oj.tinkoffhw5.service;
 
 import kz.oj.tinkoffhw5.entity.Category;
+import kz.oj.tinkoffhw5.entity.Location;
 import kz.oj.tinkoffhw5.web.rest.v1.request.CategoryCreateRequest;
 import kz.oj.tinkoffhw5.web.rest.v1.request.CategoryUpdateRequest;
 
@@ -12,9 +13,9 @@ public interface CategoryService {
 
     Category findById(Long id);
 
-    void create(CategoryCreateRequest request);
+    Category create(CategoryCreateRequest request);
 
-    void update(Long id, CategoryUpdateRequest request);
+    Category update(Long id, CategoryUpdateRequest request);
 
     void delete(Long id);
 }

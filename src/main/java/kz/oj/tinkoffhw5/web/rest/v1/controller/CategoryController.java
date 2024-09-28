@@ -34,17 +34,15 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody CategoryCreateRequest request) {
+    public ResponseEntity<Category> create(@RequestBody CategoryCreateRequest request) {
 
-        categoryService.create(request);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(categoryService.create(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody CategoryUpdateRequest request) {
+    public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody CategoryUpdateRequest request) {
 
-        categoryService.update(id, request);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(categoryService.update(id, request));
     }
 
     @DeleteMapping("/{id}")

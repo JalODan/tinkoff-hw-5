@@ -34,18 +34,18 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void create(CategoryCreateRequest request) {
+    public Category create(CategoryCreateRequest request) {
 
         Category category = Category.builder()
                 .slug(request.getSlug())
                 .name(request.getName())
                 .build();
 
-        categoryRepository.save(category);
+        return categoryRepository.save(category);
     }
 
     @Override
-    public void update(Long id, CategoryUpdateRequest request) {
+    public Category update(Long id, CategoryUpdateRequest request) {
 
         Category category = findById(id);
 
@@ -57,7 +57,7 @@ public class CategoryServiceImpl implements CategoryService {
             category.setName(request.getName());
         }
 
-        categoryRepository.save(category);
+        return categoryRepository.save(category);
     }
 
     @Override

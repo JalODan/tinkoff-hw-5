@@ -33,7 +33,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public void create(LocationCreateRequest request) {
+    public Location create(LocationCreateRequest request) {
 
         Location location = Location.builder()
                 .id(UUID.randomUUID())
@@ -41,11 +41,11 @@ public class LocationServiceImpl implements LocationService {
                 .name(request.getName())
                 .build();
 
-        locationRepository.save(location);
+        return locationRepository.save(location);
     }
 
     @Override
-    public void update(UUID id, LocationUpdateRequest request) {
+    public Location update(UUID id, LocationUpdateRequest request) {
 
         Location location = findById(id);
 
@@ -57,7 +57,7 @@ public class LocationServiceImpl implements LocationService {
             location.setName(request.getName());
         }
 
-        locationRepository.save(location);
+        return locationRepository.save(location);
     }
 
     @Override

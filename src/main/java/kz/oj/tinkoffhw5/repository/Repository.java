@@ -11,7 +11,7 @@ public interface Repository<ENTITY extends Identifiable<ID>, ID> {
 
     Optional<ENTITY> findById(ID id);
 
-    void save(ENTITY entity);
+    ENTITY save(ENTITY entity);
 
     void deleteById(ID id);
 

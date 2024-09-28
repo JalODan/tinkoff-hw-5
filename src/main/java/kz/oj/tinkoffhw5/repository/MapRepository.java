@@ -1,6 +1,7 @@
 package kz.oj.tinkoffhw5.repository;
 
 import kz.oj.tinkoffhw5.entity.Identifiable;
+import kz.oj.tinkoffhw5.entity.Location;
 
 import java.util.List;
 import java.util.Map;
@@ -31,12 +32,14 @@ public class MapRepository<ENTITY extends Identifiable<ID>, ID> implements Repos
     }
 
     @Override
-    public void save(ENTITY entity) {
+    public ENTITY save(ENTITY entity) {
 
         Objects.requireNonNull(entity);
         Objects.requireNonNull(entity.getId());
 
         map.put(entity.getId(), entity);
+
+        return entity;
     }
 
     @Override

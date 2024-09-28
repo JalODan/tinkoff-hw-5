@@ -10,13 +10,13 @@ public class CategoryRepository extends MapRepository<Category, Long> {
     private static Long NEXT_ID = 1L;
 
     @Override
-    public void save(Category category) {
+    public Category save(Category category) {
 
         if (category.getId() == null) {
             category.setId(nextId());
         }
 
-        super.save(category);
+        return super.save(category);
     }
 
     private Long nextId() {

@@ -13,9 +13,9 @@ public interface LocationService {
 
     Location findById(UUID id);
 
-    void create(LocationCreateRequest request);
+    Location create(LocationCreateRequest request);
 
-    void update(UUID id, LocationUpdateRequest request);
+    Location update(UUID id, LocationUpdateRequest request);
 
     void delete(UUID id);
 }
