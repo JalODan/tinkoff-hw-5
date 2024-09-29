@@ -1,6 +1,7 @@
 package kz.oj.tinkoffhw5.service;
 
 import kz.oj.tinkoffhw5.entity.Location;
+import kz.oj.tinkoffhw5.web.rest.v1.dto.LocationDto;
 import kz.oj.tinkoffhw5.web.rest.v1.request.LocationCreateRequest;
 import kz.oj.tinkoffhw5.web.rest.v1.request.LocationUpdateRequest;
 
@@ -9,13 +10,13 @@ import java.util.UUID;
 
 public interface LocationService {
 
-    List<Location> findAll();
+    List<LocationDto> findAll();
 
-    Location findById(UUID id);
+    LocationDto findById(UUID id);
 
-    Location create(LocationCreateRequest request);
+    LocationDto create(LocationCreateRequest request);
 
-    Location update(UUID id, LocationUpdateRequest request);
+    LocationDto update(UUID id, LocationUpdateRequest request);
 
     void delete(UUID id);
 }

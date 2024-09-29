@@ -1,0 +1,4 @@
+application:
+  categories-url: http://localhost:8081/categories
+  locations-url: http://localhost:8081/locations
+

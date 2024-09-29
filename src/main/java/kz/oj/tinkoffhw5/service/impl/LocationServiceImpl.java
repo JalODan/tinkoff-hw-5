@@ -1,8 +1,10 @@
 package kz.oj.tinkoffhw5.service.impl;
 
 import kz.oj.tinkoffhw5.entity.Location;
+import kz.oj.tinkoffhw5.mapper.LocationMapper;
 import kz.oj.tinkoffhw5.repository.LocationRepository;
 import kz.oj.tinkoffhw5.service.LocationService;
+import kz.oj.tinkoffhw5.web.rest.v1.dto.LocationDto;
 import kz.oj.tinkoffhw5.web.rest.v1.request.LocationCreateRequest;
 import kz.oj.tinkoffhw5.web.rest.v1.request.LocationUpdateRequest;
 import lombok.RequiredArgsConstructor;
@@ -11,29 +13,34 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class LocationServiceImpl implements LocationService {
 
+    private final LocationMapper locationMapper;
     private final LocationRepository locationRepository;
 
     @Override
-    public List<Location> findAll() {
+    public List<LocationDto> findAll() {
 
-        return locationRepository.findAll();
+        return locationRepository.findAll().stream()
+                .map(locationMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Location findById(UUID id) {
+    public LocationDto findById(UUID id) {
 
         return locationRepository.findById(id)
+                .map(locationMapper::toDto)
                 .orElseThrow(() -> new IllegalArgumentException("Локация не найдена по id=" + id));
     }
 
     @Override
-    public Location create(LocationCreateRequest request) {
+    public LocationDto create(LocationCreateRequest request) {
 
         Location location = Location.builder()
                 .id(UUID.randomUUID())
@@ -41,13 +48,14 @@ public class LocationServiceImpl implements LocationService {
                 .name(request.getName())
                 .build();
 
-        return locationRepository.save(location);
+        return locationMapper.toDto(locationRepository.save(location));
     }
 
     @Override
-    public Location update(UUID id, LocationUpdateRequest request) {
+    public LocationDto update(UUID id, LocationUpdateRequest request) {
 
-        Location location = findById(id);
+        Location location = locationRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Локация не найдена по id=" + id));
 
         if (request.getSlug() != null) {
             location.setSlug(request.getSlug());
@@ -57,7 +65,7 @@ public class LocationServiceImpl implements LocationService {
             location.setName(request.getName());
         }
 
-        return locationRepository.save(location);
+        return locationMapper.toDto(locationRepository.save(location));
     }
 
     @Override

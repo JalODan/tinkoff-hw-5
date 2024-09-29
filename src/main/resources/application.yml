@@ -1,0 +1,16 @@
+spring:
+  application:
+    name:tinkoff-hw-5
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/misc
+    username: postgres
+    password: root
+  sql:
+    init:
+      mode: always
+
+application:
+  categories-url: https://kudago.com/public-api/v1.4/place-categories
+  locations-url: https://kudago.com/public-api/v1.4/locations
+

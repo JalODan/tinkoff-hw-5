@@ -1,40 +1,27 @@
 package kz.oj.tinkoffhw5.task;
 
 import kz.oj.tinkoffhw5.aop.Timed;
-import kz.oj.tinkoffhw5.integration.kudago.CategoryClient;
-import kz.oj.tinkoffhw5.service.CategoryService;
-import kz.oj.tinkoffhw5.web.rest.v1.request.CategoryCreateRequest;
+import kz.oj.tinkoffhw5.service.CategoryInitializationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile("!test")
 @RequiredArgsConstructor
 @Slf4j
 public class InitializeCategoriesTask implements CommandLineRunner {
 
-    private final CategoryClient categoryClient;
-    private final CategoryService categoryService;
+    private final CategoryInitializationService categoryInitializationService;
 
     @Override
     @Timed
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
         log.info("Task started...");
-
-        categoryClient.findAll().stream().map(category -> {
-
-            @SuppressWarnings("all")
-            CategoryCreateRequest request = CategoryCreateRequest.builder()
-                    .slug(category.getSlug())
-                    .name(category.getName())
-                    .build();
-
-            return request;
-
-        }).forEach(categoryService::create);
-
+        categoryInitializationService.initializeCategories();
         log.info("Task finished...");
     }
 }
