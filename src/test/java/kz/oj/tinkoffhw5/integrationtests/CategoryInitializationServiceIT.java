@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Testcontainers
-@AutoConfigureWireMock(port = 8081)
+@AutoConfigureWireMock(port = 0)
 @ActiveProfiles("test")
 public class CategoryInitializationServiceIT {
 
