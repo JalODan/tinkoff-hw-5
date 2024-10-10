@@ -25,7 +25,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 @SpringBootTest
 @Testcontainers
-@AutoConfigureWireMock(port = 8081)
+@AutoConfigureWireMock(port = 0)
 @ActiveProfiles("test")
 public class LocationInitializationServiceIT {
 
