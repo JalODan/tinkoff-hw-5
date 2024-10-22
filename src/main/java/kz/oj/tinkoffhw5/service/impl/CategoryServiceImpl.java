@@ -1,13 +1,12 @@
 package kz.oj.tinkoffhw5.service.impl;
 
 import kz.oj.tinkoffhw5.entity.Category;
-import kz.oj.tinkoffhw5.entity.Location;
+import kz.oj.tinkoffhw5.mapper.CategoryMapper;
 import kz.oj.tinkoffhw5.repository.CategoryRepository;
 import kz.oj.tinkoffhw5.service.CategoryService;
+import kz.oj.tinkoffhw5.web.rest.v1.dto.CategoryDto;
 import kz.oj.tinkoffhw5.web.rest.v1.request.CategoryCreateRequest;
 import kz.oj.tinkoffhw5.web.rest.v1.request.CategoryUpdateRequest;
-import kz.oj.tinkoffhw5.web.rest.v1.request.LocationCreateRequest;
-import kz.oj.tinkoffhw5.web.rest.v1.request.LocationUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,34 +19,39 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
 
     @Override
-    public List<Category> findAll() {
-        return categoryRepository.findAll();
+    public List<CategoryDto> findAll() {
+        return categoryRepository.findAll()
+                .stream().map(categoryMapper::toDto)
+                .toList();
     }
 
     @Override
-    public Category findById(Long id) {
+    public CategoryDto findById(Long id) {
 
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Категория не найдена по id=" + id));
+                .map(categoryMapper::toDto)
+                .orElseThrow(() -> new IllegalArgumentException("Категория не найдена по id=" + id));
     }
 
     @Override
-    public Category create(CategoryCreateRequest request) {
+    public CategoryDto create(CategoryCreateRequest request) {
 
         Category category = Category.builder()
                 .slug(request.getSlug())
                 .name(request.getName())
                 .build();
 
-        return categoryRepository.save(category);
+        return categoryMapper.toDto(categoryRepository.save(category));
     }
 
     @Override
-    public Category update(Long id, CategoryUpdateRequest request) {
+    public CategoryDto update(Long id, CategoryUpdateRequest request) {
 
-        Category category = findById(id);
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Категория не найдена по id=" + id));
 
         if (request.getSlug() != null) {
             category.setSlug(request.getSlug());
@@ -57,7 +61,7 @@ public class CategoryServiceImpl implements CategoryService {
             category.setName(request.getName());
         }
 
-        return categoryRepository.save(category);
+        return categoryMapper.toDto(categoryRepository.save(category));
     }
 
     @Override

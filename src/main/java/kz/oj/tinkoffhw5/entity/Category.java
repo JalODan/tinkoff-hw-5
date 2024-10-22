@@ -1,13 +1,26 @@
 package kz.oj.tinkoffhw5.entity;
 
-import lombok.Builder;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
-public class Category implements Identifiable<Long> {
+@Entity
+@Table(name = "category")
+@AllArgsConstructor
+@NoArgsConstructor
+public class Category {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "slug", nullable = false)
     private String slug;
+
+    @Column(name = "name", nullable = false)
     private String name;
 }

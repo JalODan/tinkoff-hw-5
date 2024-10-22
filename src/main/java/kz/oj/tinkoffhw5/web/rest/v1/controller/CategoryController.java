@@ -3,6 +3,7 @@ package kz.oj.tinkoffhw5.web.rest.v1.controller;
 import kz.oj.tinkoffhw5.aop.Timed;
 import kz.oj.tinkoffhw5.entity.Category;
 import kz.oj.tinkoffhw5.service.CategoryService;
+import kz.oj.tinkoffhw5.web.rest.v1.dto.CategoryDto;
 import kz.oj.tinkoffhw5.web.rest.v1.request.CategoryCreateRequest;
 import kz.oj.tinkoffhw5.web.rest.v1.request.CategoryUpdateRequest;
 import lombok.RequiredArgsConstructor;
@@ -22,25 +23,25 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<Category>> findAll() {
+    public ResponseEntity<List<CategoryDto>> findAll() {
 
         return ResponseEntity.ok(categoryService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<CategoryDto> findById(@PathVariable("id") Long id) {
 
         return ResponseEntity.ok(categoryService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Category> create(@RequestBody CategoryCreateRequest request) {
+    public ResponseEntity<CategoryDto> create(@RequestBody CategoryCreateRequest request) {
 
         return ResponseEntity.ok(categoryService.create(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody CategoryUpdateRequest request) {
+    public ResponseEntity<CategoryDto> update(@PathVariable Long id, @RequestBody CategoryUpdateRequest request) {
 
         return ResponseEntity.ok(categoryService.update(id, request));
     }

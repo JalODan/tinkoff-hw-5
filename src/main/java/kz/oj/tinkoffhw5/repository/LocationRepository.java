@@ -1,12 +1,11 @@
 package kz.oj.tinkoffhw5.repository;
 
 import kz.oj.tinkoffhw5.entity.Location;
-import org.springframework.stereotype.Component;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
-@Component
-public class LocationRepository extends MapRepository<Location, UUID> {
-
-
+@Repository
+public interface LocationRepository extends JpaRepository<Location, UUID> {
 }

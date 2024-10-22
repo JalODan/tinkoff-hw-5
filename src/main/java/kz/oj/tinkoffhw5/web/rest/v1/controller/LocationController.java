@@ -3,6 +3,7 @@ package kz.oj.tinkoffhw5.web.rest.v1.controller;
 import kz.oj.tinkoffhw5.aop.Timed;
 import kz.oj.tinkoffhw5.entity.Location;
 import kz.oj.tinkoffhw5.service.LocationService;
+import kz.oj.tinkoffhw5.web.rest.v1.dto.LocationDto;
 import kz.oj.tinkoffhw5.web.rest.v1.request.LocationCreateRequest;
 import kz.oj.tinkoffhw5.web.rest.v1.request.LocationUpdateRequest;
 import lombok.RequiredArgsConstructor;
@@ -23,25 +24,25 @@ public class LocationController {
     private final LocationService locationService;
 
     @GetMapping
-    public ResponseEntity<List<Location>> findAll() {
+    public ResponseEntity<List<LocationDto>> findAll() {
 
         return ResponseEntity.ok(locationService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Location> findById(@PathVariable("id") UUID id) {
+    public ResponseEntity<LocationDto> findById(@PathVariable("id") UUID id) {
 
         return ResponseEntity.ok(locationService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Location> create(@RequestBody LocationCreateRequest request) {
+    public ResponseEntity<LocationDto> create(@RequestBody LocationCreateRequest request) {
 
         return ResponseEntity.ok(locationService.create(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Location> update(@PathVariable UUID id, @RequestBody LocationUpdateRequest request) {
+    public ResponseEntity<LocationDto> update(@PathVariable UUID id, @RequestBody LocationUpdateRequest request) {
 
         return ResponseEntity.ok(locationService.update(id, request));
     }

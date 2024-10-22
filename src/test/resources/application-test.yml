@@ -1,0 +1,4 @@
+application:
+  categories-url: http://localhost:${wiremock.server.port}/categories
+  locations-url: http://localhost:${wiremock.server.port}/locations
+

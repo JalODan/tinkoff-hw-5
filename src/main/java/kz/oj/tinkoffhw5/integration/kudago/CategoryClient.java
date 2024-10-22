@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
-@FeignClient(name = "category", url = "https://kudago.com/public-api/v1.4/place-categories")
+@FeignClient(name = "category", url = "${application.categories-url}")
 public interface CategoryClient {
 
     @GetMapping
