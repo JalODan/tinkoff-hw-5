@@ -84,6 +84,9 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.postgresql/postgresql
 	implementation 'org.postgresql:postgresql:42.7.4'
 
+	// https://mvnrepository.com/artifact/org.liquibase/liquibase-core
+	implementation 'org.liquibase:liquibase-core:4.29.2'
+
 }
 
 tasks.named('test') {

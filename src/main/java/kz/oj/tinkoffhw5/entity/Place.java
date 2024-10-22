@@ -10,10 +10,10 @@ import java.util.UUID;
 @ToString
 @Builder
 @Entity
-@Table(name = "location")
+@Table(name = "places")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Location {
+public class Place {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

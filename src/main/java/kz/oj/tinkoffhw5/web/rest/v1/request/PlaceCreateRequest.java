@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class LocationCreateRequest {
+public class PlaceCreateRequest {
 
     private String slug;
     private String name;
