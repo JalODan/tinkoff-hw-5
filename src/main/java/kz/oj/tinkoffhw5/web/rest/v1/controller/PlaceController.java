@@ -1,5 +1,6 @@
 package kz.oj.tinkoffhw5.web.rest.v1.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import kz.oj.tinkoffhw5.aop.Timed;
 import kz.oj.tinkoffhw5.service.PlaceService;
 import kz.oj.tinkoffhw5.web.rest.v1.dto.PlaceDto;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 @Timed
+@Tag(name = "Города")
 public class PlaceController {
 
     private final PlaceService placeService;
