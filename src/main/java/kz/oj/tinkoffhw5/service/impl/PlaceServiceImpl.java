@@ -1,6 +1,7 @@
 package kz.oj.tinkoffhw5.service.impl;
 
 import kz.oj.tinkoffhw5.entity.Place;
+import kz.oj.tinkoffhw5.exception.EntityNotFoundException;
 import kz.oj.tinkoffhw5.mapper.PlaceMapper;
 import kz.oj.tinkoffhw5.repository.PlaceRepository;
 import kz.oj.tinkoffhw5.service.PlaceService;
@@ -36,7 +37,7 @@ public class PlaceServiceImpl implements PlaceService {
 
         return placeRepository.findById(id)
                 .map(placeMapper::toDto)
-                .orElseThrow(() -> new IllegalArgumentException("Локация не найдена по id=" + id));
+                .orElseThrow(() -> new EntityNotFoundException(Place.class, id));
     }
 
     @Override
@@ -55,7 +56,7 @@ public class PlaceServiceImpl implements PlaceService {
     public PlaceDto update(UUID id, PlaceUpdateRequest request) {
 
         Place place = placeRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Локация не найдена по id=" + id));
+                .orElseThrow(() -> new EntityNotFoundException(Place.class, id));
 
         if (request.getSlug() != null) {
             place.setSlug(request.getSlug());
@@ -70,6 +71,10 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public void delete(UUID id) {
+
+        if (!placeRepository.existsById(id)) {
+            throw new EntityNotFoundException(Place.class, id);
+        }
 
         placeRepository.deleteById(id);
     }

@@ -2,6 +2,7 @@ package kz.oj.tinkoffhw5.service;
 
 import jakarta.annotation.Nullable;
 import kz.oj.tinkoffhw5.entity.Event;
+import kz.oj.tinkoffhw5.entity.Place;
 import kz.oj.tinkoffhw5.exception.EntityNotFoundException;
 import kz.oj.tinkoffhw5.exception.RelatedEntityNotFoundException;
 import kz.oj.tinkoffhw5.mapper.EventMapper;
@@ -33,7 +34,12 @@ public class EventServiceImpl implements EventService {
     private final EventMapper eventMapper;
 
     @Override
-    public List<EventDto> findAll(@Nullable String nameSubstring, @Nullable UUID placeId, @Nullable LocalDate fromDate, @Nullable LocalDate toDate) {
+    public List<EventDto> findAll(
+            @Nullable String nameSubstring,
+            @Nullable UUID placeId,
+            @Nullable LocalDate fromDate,
+            @Nullable LocalDate toDate
+    ) {
 
         Specification<Event> specification = Specification.where(
                 EventSpecification.hasNameLike(nameSubstring)
@@ -51,7 +57,7 @@ public class EventServiceImpl implements EventService {
     public EventDto findById(Long id) {
 
         Event event = eventRepository.findEventWithPlaceById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException(Event.class, id));
 
         return eventMapper.toDto(event);
     }
@@ -62,7 +68,10 @@ public class EventServiceImpl implements EventService {
         Event event = new Event();
         event.setName(request.name());
         event.setDate(request.date());
-        event.setPlace(placeRepository.findById(request.placeId()).orElseThrow(RelatedEntityNotFoundException::new));
+        event.setPlace(placeRepository
+                .findById(request.placeId())
+                .orElseThrow(() -> new RelatedEntityNotFoundException(Place.class, request.placeId()))
+        );
 
         Event saved = eventRepository.save(event);
 
@@ -73,7 +82,7 @@ public class EventServiceImpl implements EventService {
     public EventDto update(Long id, EventUpdateRequest request) {
 
         Event event = eventRepository.findEventWithPlaceById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException(Event.class, id));
 
         if (request.name() != null) {
             event.setName(request.name());
@@ -84,7 +93,10 @@ public class EventServiceImpl implements EventService {
         }
 
         if (request.placeId() != null) {
-            event.setPlace(placeRepository.findPLaceWithEventsById(request.placeId()).orElseThrow(RelatedEntityNotFoundException::new));
+            event.setPlace(placeRepository
+                    .findPLaceWithEventsById(request.placeId())
+                    .orElseThrow(() -> new RelatedEntityNotFoundException(Place.class, request.placeId()))
+            );
         }
 
         Event saved = eventRepository.save(event);
@@ -95,8 +107,8 @@ public class EventServiceImpl implements EventService {
     @Override
     public void delete(Long id) {
 
-        if (eventRepository.existsById(id)) {
-            throw new EntityNotFoundException();
+        if (!eventRepository.existsById(id)) {
+            throw new EntityNotFoundException(Event.class, id);
         }
 
         eventRepository.deleteById(id);
