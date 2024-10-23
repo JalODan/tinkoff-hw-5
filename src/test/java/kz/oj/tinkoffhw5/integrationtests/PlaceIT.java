@@ -1,6 +1,8 @@
 package kz.oj.tinkoffhw5.integrationtests;
 
+import kz.oj.tinkoffhw5.entity.Event;
 import kz.oj.tinkoffhw5.entity.Place;
+import kz.oj.tinkoffhw5.repository.EventRepository;
 import kz.oj.tinkoffhw5.repository.PlaceRepository;
 import kz.oj.tinkoffhw5.web.rest.v1.dto.PlaceDto;
 import org.junit.jupiter.api.AfterEach;
@@ -18,7 +20,9 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.time.LocalDate;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -50,10 +54,13 @@ public class PlaceIT {
 
     @AfterEach
     void tearDown() {
+        eventRepository.deleteAll();
         placeRepository.deleteAll();
     }
 
     private final String baseUrl = "/api/v1/places";
+    @Autowired
+    private EventRepository eventRepository;
 
     @Test
     void findAll() throws Exception {
@@ -77,9 +84,9 @@ public class PlaceIT {
     @Test
     void givenNonexistentId_whenFindById_thenNotFound() throws Exception {
 
-        mockMvc.perform(get(baseUrl + "/1"))
+        mockMvc.perform(get(baseUrl + "/" + UUID.randomUUID()))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code").value("NOT_FOUND"));
+                .andExpect(jsonPath("$.code").value("ENTITY_NOT_FOUND"));
     }
 
     @Test
@@ -122,12 +129,58 @@ public class PlaceIT {
         assertEquals("Алматы", place.getName());
     }
 
+    @Test
+    void update() throws Exception {
+
+        Place place = createPlace("Нур-Султан", "Z");
+
+        String json = """
+                {
+                    "slug": "01",
+                    "name": "Астана"
+                }
+                """;
+
+        mockMvc.perform(put(baseUrl + "/" + place.getId())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(json)
+        ).andExpect(status().isOk());
+
+        Optional<Place> placeOptional = placeRepository.findById(place.getId());
+        assertTrue(placeOptional.isPresent());
+        assertEquals("01", placeOptional.get().getSlug());
+        assertEquals("Астана", placeOptional.get().getName());
+    }
+
+    @Test
+    void testDelete() throws Exception {
+
+        Place place = createPlace("Шымкент", "17");
+        Event event = createEvent("Тетин юбилей", place, LocalDate.of(2024, 11, 11));
+
+        mockMvc.perform(delete(baseUrl + "/" + place.getId()))
+                .andExpect(status().isOk());
+
+        assertFalse(placeRepository.existsById(place.getId()));
+        assertFalse(eventRepository.existsById(event.getId()));
+    }
+
     private Place createPlace(String name, String slug) {
 
         Place place = new Place();
         place.setName(name);
         place.setSlug(slug);
         return placeRepository.save(place);
+    }
+
+    private Event createEvent(String name, Place place, LocalDate date) {
+
+        Event event = new Event();
+        event.setName(name);
+        event.setPlace(place);
+        event.setDate(date);
+
+        return eventRepository.save(event);
     }
 
 }
