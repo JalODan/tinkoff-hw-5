@@ -1,6 +1,7 @@
 package kz.oj.tinkoffhw5.service.impl;
 
 import kz.oj.tinkoffhw5.entity.Place;
+import kz.oj.tinkoffhw5.exception.EntityNotFoundException;
 import kz.oj.tinkoffhw5.mapper.PlaceMapper;
 import kz.oj.tinkoffhw5.repository.PlaceRepository;
 import kz.oj.tinkoffhw5.web.rest.v1.dto.PlaceDto;
@@ -59,7 +60,7 @@ class PlaceServiceImplTest {
         when(placeRepository.findById(id)).thenReturn(Optional.empty());
 
         // When, then
-        assertThrows(IllegalArgumentException.class, () -> locationService.findById(id));
+        assertThrows(EntityNotFoundException.class, () -> locationService.findById(id));
     }
 
     @Test
@@ -118,7 +119,7 @@ class PlaceServiceImplTest {
 
         // When, then
         assertThrows(
-                IllegalArgumentException.class,
+                EntityNotFoundException.class,
                 () -> locationService.update(id, mock(PlaceUpdateRequest.class))
         );
     }
@@ -213,6 +214,7 @@ class PlaceServiceImplTest {
 
         // Given
         UUID id = UUID.randomUUID();
+        when(placeRepository.existsById(id)).thenReturn(true);
 
         // When
         locationService.delete(id);
