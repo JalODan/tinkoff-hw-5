@@ -1,8 +1,8 @@
 package kz.oj.tinkoffhw5.integrationtests;
 
-import kz.oj.tinkoffhw5.entity.Location;
-import kz.oj.tinkoffhw5.repository.LocationRepository;
-import kz.oj.tinkoffhw5.service.LocationInitializationService;
+import kz.oj.tinkoffhw5.entity.Place;
+import kz.oj.tinkoffhw5.repository.PlaceRepository;
+import kz.oj.tinkoffhw5.service.PlaceInitializationService;
 import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 @Testcontainers
 @AutoConfigureWireMock(port = 0)
 @ActiveProfiles("test")
-public class LocationInitializationServiceIT {
+public class PlaceInitializationServiceIT {
 
     @Container
     @ServiceConnection
@@ -40,15 +40,15 @@ public class LocationInitializationServiceIT {
     }
 
     @Autowired
-    private LocationInitializationService locationInitializationService;
+    private PlaceInitializationService placeInitializationService;
 
     @Autowired
-    private LocationRepository locationRepository;
+    private PlaceRepository placeRepository;
 
     @AfterEach
     void tearDown() {
 
-        locationRepository.deleteAll();
+        placeRepository.deleteAll();
     }
 
     @Test
@@ -77,18 +77,18 @@ public class LocationInitializationServiceIT {
         );
 
         // When
-        locationInitializationService.initializeLocations();
+        placeInitializationService.initializePlaces();
 
         // Then
-        List<Location> locations = locationRepository.findAll();
+        List<Place> places = placeRepository.findAll();
 
-        assertNotNull(locations);
-        assertEquals(2, locations.size());
+        assertNotNull(places);
+        assertEquals(2, places.size());
 
-        Set<String> names = locations.stream().map(Location::getName).collect(Collectors.toSet());
+        Set<String> names = places.stream().map(Place::getName).collect(Collectors.toSet());
         assertTrue(names.containsAll(List.of("Алматы", "Астана")));
 
-        Set<String> slugs = locations.stream().map(Location::getSlug).collect(Collectors.toSet());
+        Set<String> slugs = places.stream().map(Place::getSlug).collect(Collectors.toSet());
         assertTrue(slugs.containsAll(List.of("ala", "nqz")));
     }
 }

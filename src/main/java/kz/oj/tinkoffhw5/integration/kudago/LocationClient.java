@@ -1,6 +1,6 @@
 package kz.oj.tinkoffhw5.integration.kudago;
 
-import kz.oj.tinkoffhw5.entity.Location;
+import kz.oj.tinkoffhw5.entity.Place;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -10,5 +10,5 @@ import java.util.List;
 public interface LocationClient {
 
     @GetMapping
-    List<Location> findAll();
+    List<Place> findAll();
 }

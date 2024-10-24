@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/create-table-places.sql
+  - include:
+      file: db/changelog/create-table-events.sql
+  - include:
+      file: db/changelog/create-table-category.sql

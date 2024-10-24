@@ -3,6 +3,7 @@ package kz.oj.tinkoffhw5.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -10,10 +11,10 @@ import java.util.UUID;
 @ToString
 @Builder
 @Entity
-@Table(name = "location")
+@Table(name = "places")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Location {
+public class Place {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -25,4 +26,8 @@ public class Location {
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "place", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Event> events;
 }
