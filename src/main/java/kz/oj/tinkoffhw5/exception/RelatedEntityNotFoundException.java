@@ -6,7 +6,7 @@ public class RelatedEntityNotFoundException extends RuntimeException{
 
     public RelatedEntityNotFoundException(Class<?> entityClass, Object id) {
 
-        super(MessageFormat.format("Сущность \"{1}\" не найдена по id={2}", entityClass.getSimpleName(), id));
+        super(MessageFormat.format("Сущность \"{0}\" не найдена по id={1}", entityClass.getSimpleName(), id));
     }
 
 }

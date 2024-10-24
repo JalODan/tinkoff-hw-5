@@ -12,6 +12,6 @@ import java.util.UUID;
 @Repository
 public interface PlaceRepository extends JpaRepository<Place, UUID> {
 
-    @Query("SELECT p FROM Place p JOIN FETCH p.events where p.id = :id")
+    @Query("SELECT p FROM Place p LEFT JOIN FETCH p.events where p.id = :id")
     Optional<Place> findPLaceWithEventsById(@Param("id") UUID id);
 }
